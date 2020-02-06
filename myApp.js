@@ -10,6 +10,10 @@ var app = express();
 
 
 /** 1) Meet the node console. */
+
+
+
+/** 3) Serve an HTML file */
 console.log("Hello World");
 
 /** 2) A first working Express Server */
@@ -18,15 +22,20 @@ app.get("/", function (req, res) {
     res.sendFile(absolutePath);
 })
 
-
-/** 3) Serve an HTML file */
-
-
 /** 4) Serve static assets  */
-
+app.use(express.static(__dirname + "/public"))
 
 /** 5) serve JSON on a specific route */
+let sendJson = function (req, res) {
+    let message = "Hello json"
+    if (process.env.MESSAGE_STYLE === "uppercase") {
+        message = message.toUpperCase()
+    }
+    let json = { "message": message }
+    res.json(json)
+}
 
+app.get("/json", sendJson)
 
 /** 6) Use the .env file to configure the app */
 
